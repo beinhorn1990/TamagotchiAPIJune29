@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,14 +8,20 @@ namespace TamagotchiAPIJune29.Models
     public partial class DatabaseContext : DbContext
     {
         // Change this if you want to have a different database name in development
-        private static string DEVELOPMENT_DATABASE_NAME = "TamagotchiAPIJune29Database";
+        private static string DEVELOPMENT_DATABASE_NAME = "TamagotchiAPIDatabase";
 
         // Change this to true if you want to have logging of SQL statements in development
         private static bool LOG_SQL_STATEMENTS_IN_DEVELOPMENT = false;
 
         // Add database tables here
+
         public DbSet<Pet> Pets { get; set; }
 
+        public DbSet<Playtime> Playtimes { get; set; }
+
+        public DbSet<Feeding> Feedings { get; set; }
+
+        public DbSet<Scolding> Scoldings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,6 +49,7 @@ namespace TamagotchiAPIJune29.Models
             var connectionParts = Regex.Split(_connection, ":|@|/");
 
             return $"server={connectionParts[2]};SSL Mode=Require;Trust Server Certificate=true;database={connectionParts[4]};User Id={connectionParts[0]};password={connectionParts[1]};port={connectionParts[3]}";
+
         }
     }
 }
