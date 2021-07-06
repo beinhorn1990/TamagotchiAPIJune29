@@ -28,12 +28,21 @@ namespace TamagotchiAPIJune29.Controllers
 
         // GET: api/Pets
         //
+<<<<<<< HEAD
+        // Returns a list of all your Pet
+        //
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Pet>>> GetPet()
+        {
+            // Uses the database context in `_context` to request all of the Pet, sort
+=======
         // Returns a list of all your Pets
         //
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPets()
         {
             // Uses the database context in `_context` to request all of the Pets, sort
+>>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
             // them by row id and return them as a JSON array.
             return await _context.Pets.OrderBy(row => row.Id).ToListAsync();
         }
@@ -44,8 +53,19 @@ namespace TamagotchiAPIJune29.Controllers
         // URL. In the sample URL above it is the `5`.  The "{id}" in the [HttpGet("{id}")] is what tells dotnet
         // to grab the id from the URL. It is then made available to us as the `id` argument to the method.
         //
+<<<<<<< HEAD
+        [HttpGet("alive")]
+        public async Task<ActionResult<IEnumerable<Pet>>> GetAlivePet()
+        {
+            return await _context.Pets.Where(alive => alive.IsDead == false).ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Pet>> GetAlivePet(int id)
+=======
         [HttpGet("{id}")]
         public async Task<ActionResult<Pet>> GetPet(int id)
+>>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
         {
             // Find the pet in the database using `FindAsync` to look it up by id
             var pet = await _context.Pets.FindAsync(id);
@@ -125,6 +145,17 @@ namespace TamagotchiAPIJune29.Controllers
         public async Task<ActionResult<Pet>> PostPet(Pet pet)
         {
             // Indicate to the database context we want to add this new record
+<<<<<<< HEAD
+
+            pet.Birthday = DateTime.Now;
+            pet.HappinessLevel = 0;
+            pet.HungerLevel = 0;
+            pet.LastInteractedWithDate = DateTime.Today;
+            pet.IsDead = false;
+
+
+=======
+>>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
             _context.Pets.Add(pet);
             await _context.SaveChangesAsync();
 
@@ -139,7 +170,10 @@ namespace TamagotchiAPIJune29.Controllers
         // In the sample URL above it is the `5`. The "{id} in the [HttpDelete("{id}")] is what tells dotnet
         // to grab the id from the URL. It is then made available to us as the `id` argument to the method.
         //
+<<<<<<< HEAD
+=======
 
+>>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
@@ -166,5 +200,113 @@ namespace TamagotchiAPIJune29.Controllers
         {
             return _context.Pets.Any(pet => pet.Id == id);
         }
+<<<<<<< HEAD
+        [HttpPost("{id}/playtimes")]
+        public async Task<ActionResult<Playtime>> PlaytimeForPet(int id)
+        {
+            var pet = await _context.Pets.FindAsync(id);
+
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            var deathDate = DateTime.Now;
+            if ((deathDate - pet.LastInteractedWithDate).TotalDays > 3)
+            {
+                pet.IsDead = true;
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Your pet is dead" });
+            }
+            else
+            {
+                pet.LastInteractedWithDate = DateTime.Now;
+                Playtime playtimes = new Playtime();
+                playtimes.PetId = pet.Id;
+                playtimes.When = DateTime.Now;
+
+                pet.HappinessLevel += 5;
+                pet.HungerLevel += 3;
+
+
+                _context.Playtimes.Add(playtimes);
+                await _context.SaveChangesAsync();
+
+                return Ok(playtimes);
+            }
+        }
+
+        [HttpPost("{id}/feedings")]
+        public async Task<ActionResult<Feeding>> FeedingForPet(int id)
+        {
+            var pet = await _context.Pets.FindAsync(id);
+
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            var deathDate = DateTime.Now;
+            if ((deathDate - pet.LastInteractedWithDate).TotalDays > 3)
+            {
+                pet.IsDead = true;
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Your pet is dead" });
+
+            }
+            else
+            {
+                pet.LastInteractedWithDate = DateTime.Now;
+                Feeding feedings = new Feeding();
+                feedings.PetId = pet.Id;
+                feedings.When = DateTime.Now;
+
+                pet.HappinessLevel += 3;
+                pet.HungerLevel -= 5;
+
+                _context.Feedings.Add(feedings);
+                await _context.SaveChangesAsync();
+
+                return Ok(feedings);
+            }
+
+        }
+        [HttpPost("{id}/scoldings")]
+        public async Task<ActionResult<Scolding>> ScoldingForPet(int id)
+        {
+            var pet = await _context.Pets.FindAsync(id);
+
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            var deathDate = DateTime.Now;
+            if ((deathDate - pet.LastInteractedWithDate).TotalDays > 3)
+            {
+                pet.IsDead = true;
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Your pet is dead" });
+            }
+            else
+            {
+                pet.LastInteractedWithDate = DateTime.Now;
+                Scolding scoldings = new Scolding();
+                scoldings.PetId = pet.Id;
+                scoldings.When = DateTime.Now;
+
+                pet.HappinessLevel -= 5;
+
+                _context.Scoldings.Add(scoldings);
+                await _context.SaveChangesAsync();
+                return Ok(scoldings);
+            }
+
+        }
+
     }
 }
+=======
+    }
+}
+>>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
