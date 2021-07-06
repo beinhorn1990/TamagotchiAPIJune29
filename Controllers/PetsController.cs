@@ -28,21 +28,12 @@ namespace TamagotchiAPIJune29.Controllers
 
         // GET: api/Pets
         //
-<<<<<<< HEAD
         // Returns a list of all your Pet
         //
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPet()
         {
             // Uses the database context in `_context` to request all of the Pet, sort
-=======
-        // Returns a list of all your Pets
-        //
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pet>>> GetPets()
-        {
-            // Uses the database context in `_context` to request all of the Pets, sort
->>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
             // them by row id and return them as a JSON array.
             return await _context.Pets.OrderBy(row => row.Id).ToListAsync();
         }
@@ -53,7 +44,6 @@ namespace TamagotchiAPIJune29.Controllers
         // URL. In the sample URL above it is the `5`.  The "{id}" in the [HttpGet("{id}")] is what tells dotnet
         // to grab the id from the URL. It is then made available to us as the `id` argument to the method.
         //
-<<<<<<< HEAD
         [HttpGet("alive")]
         public async Task<ActionResult<IEnumerable<Pet>>> GetAlivePet()
         {
@@ -62,10 +52,6 @@ namespace TamagotchiAPIJune29.Controllers
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Pet>> GetAlivePet(int id)
-=======
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Pet>> GetPet(int id)
->>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
         {
             // Find the pet in the database using `FindAsync` to look it up by id
             var pet = await _context.Pets.FindAsync(id);
@@ -145,8 +131,6 @@ namespace TamagotchiAPIJune29.Controllers
         public async Task<ActionResult<Pet>> PostPet(Pet pet)
         {
             // Indicate to the database context we want to add this new record
-<<<<<<< HEAD
-
             pet.Birthday = DateTime.Now;
             pet.HappinessLevel = 0;
             pet.HungerLevel = 0;
@@ -154,11 +138,7 @@ namespace TamagotchiAPIJune29.Controllers
             pet.IsDead = false;
 
 
-=======
->>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
             _context.Pets.Add(pet);
-            await _context.SaveChangesAsync();
-
             // Return a response that indicates the object was created (status code `201`) and some additional
             // headers with details of the newly created object.
             return CreatedAtAction("GetPet", new { id = pet.Id }, pet);
@@ -170,10 +150,6 @@ namespace TamagotchiAPIJune29.Controllers
         // In the sample URL above it is the `5`. The "{id} in the [HttpDelete("{id}")] is what tells dotnet
         // to grab the id from the URL. It is then made available to us as the `id` argument to the method.
         //
-<<<<<<< HEAD
-=======
-
->>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
@@ -200,7 +176,6 @@ namespace TamagotchiAPIJune29.Controllers
         {
             return _context.Pets.Any(pet => pet.Id == id);
         }
-<<<<<<< HEAD
         [HttpPost("{id}/playtimes")]
         public async Task<ActionResult<Playtime>> PlaytimeForPet(int id)
         {
@@ -306,7 +281,3 @@ namespace TamagotchiAPIJune29.Controllers
 
     }
 }
-=======
-    }
-}
->>>>>>> 859ea9e00702b1391df47051dead77fbea14478a
